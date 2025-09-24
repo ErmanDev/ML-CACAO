@@ -106,32 +106,8 @@
                 </div>
             {% endif %}
 
-            {% for result in results %}
-    <div class="mb-4">
-        <img src="{{ url_for('static', filename='uploads/' + result.image) }}" class="img-thumbnail me-3" style="max-width:100px;">
-        <p>{{ result.text }}</p>
-        <table class="table table-sm table-bordered">
-            <thead>
-                <tr>
-                    <th>Channel</th>
-                    <th>Mean</th>
-                    <th>Std Dev</th>
-                    <th>Variance</th>
-                    <th>Skewness</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for channel, values in result.stats.items() %}
-                    <tr>
-                        <td>{{ channel }}</td>
-                        {% for val in values %}
-                            <td>{{ "%.2f"|format(val) }}</td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+          {% for result in results %}
+
 {% endfor %}
         </div>
     </div>

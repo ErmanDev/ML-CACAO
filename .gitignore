@@ -1,4 +1,4 @@
-# 🐍 Python artifacts
+
 __pycache__/
 *.py[cod]
 *.so
@@ -7,26 +7,26 @@ __pycache__/
 dist/
 build/
 
-# 📦 Virtual environment
+
 venv/
 
-# 🔧 Environment variables
+
 .env
 *.env
 
-# 🧪 Jupyter notebooks checkpoints (if used)
+
 .ipynb_checkpoints/
 
-# 📊 Data files (optional — if you want to exclude large or sensitive datasets)
+
 data/
 *.csv
 
-# 🖼️ Uploaded files (if dynamically generated)
+
 static/uploads/
 
-# 💻 VS Code settings
+
 .vscode/
 
-# 📦 Package manager files (if using Poetry or pipenv)
+
 poetry.lock
 Pipfile.lock
