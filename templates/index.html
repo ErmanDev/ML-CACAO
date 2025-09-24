@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cacao Bean Classifier</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        .card {
+            max-width: 800px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .card-header {
+            background: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .btn-primary {
+            width: 100%;
+            font-weight: 600;
+        }
+        .uploaded-img, .hsv-img {
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            max-height: 300px;
+            object-fit: contain;
+        }
+        .prediction-list li {
+            background-color: #f1f3f5;
+            margin-bottom: 8px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .prediction-list li:hover {
+            background-color: #e9ecef;
+        }
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="mb-0">Cacao Bean Fermentation Classifier</h2>
+        </div>
+        <div class="card-body p-4">
+            <form action="/predict" method="post" enctype="multipart/form-data" class="mb-4">
+                <input type="file" name="image" class="form-control mb-3" required>
+                <button type="submit" class="btn btn-primary">Upload & Predict</button>
+            </form>
+
+            {% if image %}
+                <h4 class="section-title">Uploaded Image:</h4>
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='uploads/' + image) }}" class="img-fluid uploaded-img mb-3">
+                </div>
+            {% endif %}
+
+          {% if results %}
+    <h4 class="section-title">Predictions:</h4>
+    <div class="row g-3">
+        {% for result in results %}
+            <div class="col-12 col-md-6 d-flex align-items-center">
+                <img src="{{ url_for('static', filename='uploads/' + result.image) }}" 
+                     class="img-thumbnail me-3" style="max-width:100px;">
+                <span>{{ result.text }}</span>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+            {% if image %}
+                <h4 class="section-title">HSV Channels:</h4>
+                <div class="row g-3">
+                    <div class="col-12 col-md-4 text-center">
+                        <p><strong>Hue</strong></p>
+                        <img src="{{ url_for('static', filename='uploads/hue.jpg') }}" class="img-fluid hsv-img">
+                    </div>
+                    <div class="col-12 col-md-4 text-center">
+                        <p><strong>Saturation</strong></p>
+                        <img src="{{ url_for('static', filename='uploads/saturation.jpg') }}" class="img-fluid hsv-img">
+                    </div>
+                    <div class="col-12 col-md-4 text-center">
+                        <p><strong>Value</strong></p>
+                        <img src="{{ url_for('static', filename='uploads/value.jpg') }}" class="img-fluid hsv-img">
+                    </div>
+                </div>
+            {% endif %}
+
+            {% for result in results %}
+    <div class="mb-4">
+        <img src="{{ url_for('static', filename='uploads/' + result.image) }}" class="img-thumbnail me-3" style="max-width:100px;">
+        <p>{{ result.text }}</p>
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th>Channel</th>
+                    <th>Mean</th>
+                    <th>Std Dev</th>
+                    <th>Variance</th>
+                    <th>Skewness</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for channel, values in result.stats.items() %}
+                    <tr>
+                        <td>{{ channel }}</td>
+                        {% for val in values %}
+                            <td>{{ "%.2f"|format(val) }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endfor %}
+        </div>
+    </div>
+</body>
+</html>
