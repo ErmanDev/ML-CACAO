@@ -4,7 +4,7 @@ from scipy.stats import skew
 from pathlib import Path
 import csv
 
-# --- HSV Feature Extraction ---
+
 def extract_hsv_features(img_path):
     img = cv2.imread(str(img_path))
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -20,7 +20,7 @@ def extract_hsv_features(img_path):
 
     return stats(h) + stats(s) + stats(v)
 
-# --- Process a Dataset Split ---
+
 def process_split(split_name, base_dir="data"):
     split_dir = Path(base_dir) / split_name
     output_file = f"features_{split_name.lower()}.csv"
@@ -47,7 +47,7 @@ def process_split(split_name, base_dir="data"):
 
     print(f"[INFO] Saved {split_name} features to {output_file}")
 
-# --- Main ---
+
 if __name__ == "__main__":
     for split in ["Training", "Validation", "Calibration"]:
         process_split(split)

@@ -61,7 +61,8 @@ def predict():
 
         results.append({
             "text": f"Bean {i+1}: {prediction} ({confidence:.2f}% confidence)",
-            "image": bean_filename
+            "image": bean_filename,
+            "prob": float(np.max(proba))
         })
 
     return render_template("index.html", results=results, image=file.filename)
